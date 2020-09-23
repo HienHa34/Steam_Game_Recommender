@@ -40,7 +40,7 @@ The metric I decided to use to evaluate the recommender is precision@k. A recomm
 
 My first item-item recommender used the raw time that users have played each game, which are in minutes. The minutes played range from 0 to 642773. My second item- item recommender had binary ratings. If a user has played a game, it would be a 1 for the rating, and if a user has not, then it would be a 0. 
 
-| Recommender| Average precision@K|
+| Recommender| Average precision@k|
 |------------|--------------------|
 |Non-binary  | .04                |
 |Binary       | .038              |
@@ -50,5 +50,23 @@ My two recommenders use a neighborhood of 20 similar games to predict the rating
 The results are underperforming of what I consider a successful recommendation, so I took a look at the recommendations a user was given and compared it to some of the games the users actually did play. 
 
 
+![img](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/recommended.png)
+
+![img](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/actuallyplayed.png)
 
 
+
+The snippet on top are the games recommended to the user, and the snippet on the bootom are some games the user actually played.The recommender is recommending similar games in same genre(action in this case) that the user plays. The precision@k score is low because there are over 200 games to recommend. The precision@k can be higher if we increase the amount of recommendations to give to a user. 
+
+Alternatively to my two item-item recommenders, I also used an SVD and CoCluster based recommenders from surprise that achieved significantly better results. 
+
+| Recommender| Average precision@k|
+|------------|--------------------|
+|SVD | .65|
+|CoCluster|.71|
+
+## Next Steps
+- Explore optimization of the recommenders.
+ - specifically neighnborhood size for my first recommenders.
+- Build other types of recommenders.
+- I would like build a web app with flask down the line after developing a robust recommender. :thumbsup:
