@@ -14,6 +14,7 @@ After inputing the data into, a pandas dataframe, I found that there were some d
 
 Below is a table with a description of how many games a user has played(Ratings Per User) and how many users have played a game(Ratings Per Game). 
 
+![alt text](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/RatingsPerGame.png)
 |                 | Min | Max| Mean|
 |-----------------|-----|----|-----|
 |Ratings Per User | 1   |7762|71.84|
