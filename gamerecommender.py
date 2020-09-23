@@ -31,18 +31,18 @@ def predict(self,user_id,neighbors):
     return preds
 
 def	predict_all (self, neighbors):
-		self.predictions = predictions
 		predictions = [self.predict(user_id,neighbors) for user_id in range(self.utility_mat.shape[0])]
-
+		self.predictions = predictions
 		return predictions
+
 
 def evaluate(self,actual):
 		hits = 0
 		for i, pred in enumerate(self.predictions):
-    	top_5 = pred.argsort()[::-1][:5]
+    	top_10 = pred.argsort()[::-1][:10]
     	test = actual[i]
-    	hits += len(np.intersect1d(top_5,test))
-		accuracy = hits/len(self.predictions)
-		return accuracy
+    	hits += len(np.intersect1d(top_10,test))
+		avg_precision = hits/len(self.predictions)
+		return avg_precision
 
 
