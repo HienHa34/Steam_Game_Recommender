@@ -12,10 +12,43 @@ Once exploded, item_id, item_name, playtime_forever, and playtime_2weeks were cr
 ## EDA
 After inputing the data into, a pandas dataframe, I found that there were some duplicate users, and after dropping them, the total users came down to 87626 unique users and 10,978 games played between all users. 
 
-Below is a table with a description of how many games a user has played(Ratings Per User) and how many users have played a game(Ratings Per Game). 
+Below are plots and a table depicting how many games a user has played(Ratings Per User) and how many users have played a game(Ratings Per Game).
 
-![alt text](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/RatingsPerGame.png)
+![img](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/RatingsPerGame.png)
+![img](https://github.com/HienHa34/Steam_Game_Recommender/blob/master/img/RatingsPerUser.png)
+
 |                 | Min | Max| Mean|
 |-----------------|-----|----|-----|
 |Ratings Per User | 1   |7762|71.84|
 |Ratings Per Game | 1   |49136|464.03|
+
+
+From the right skewness, of both plots, one can expect the utility matrix of ratings to be sparse. The density of the utility matrix is 0.0065. Due to the sparsity, I wanted to filter out users and games to better extract signal and reduce computational costs.  
+
+I decided to keep users who have played at least 30 games and games that have been played by at least 5000 users.This reduced the users to 20540 and to 210 games. The density of the new utility matrix increased to 0.3074. 
+
+
+## Item-Item Recommender
+
+Once the utility matrix has been set, a 210 x 210 item-item simlarity matrix was made using cosine similarity, and this simlarity matrix in conjunction with the utility matrix can be used to predict ratings. From those ratings, I want to recommend the top 10 games to users according to their play history.
+ 
+#### Testing and Evaluation
+
+To test the recommender, I sampled 10 random ratings from each user and replaced those ratings with NaNs for the recommender to predict. In the perfect world, the recommender would pick up all the signal and rate the 10 sampled games the highest, which would be the 10 I recommend. 
+
+The metric I decided to use to evaluate the recommender is precision@k. A recommendation is successful if precision@k is 0.10 meaning that 1 of the 10 recommendations was actually in the test set. 
+
+My first item-item recommender used the raw time that users have played each game, which are in minutes. The minutes played range from 0 to 642773. My second item- item recommender had binary ratings. If a user has played a game, it would be a 1 for the rating, and if a user has not, then it would be a 0. 
+
+| Recommender| Average precision@K|
+|------------|--------------------|
+|Non-binary  | .04                |
+|Binary       | .038              |
+
+My two recommenders use a neighborhood of 20 similar games to predict the ratings. I also tested a Non-binary recommender that had a neighborhood of 30 but it yielded slighlty worse results with .038. 
+
+The results are underperforming of what I consider a successful recommendation, so I took a look at the recommendations a user was given and compared it to some of the games the users actually did play. 
+
+
+
+
